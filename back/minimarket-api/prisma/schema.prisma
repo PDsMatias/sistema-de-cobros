@@ -1,0 +1,21 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./minimarket-dev.db"
+}
+
+model Producto {
+  id      Int     @id @default(autoincrement())
+  nombre  String  @unique
+  codigo  String?  
+  precioPorPeso   Decimal @default(0)
+  precioPorUnidad Decimal @default(0)
+  cantidadPeso    Decimal @default(0)
+  cantidadUnidad  Decimal @default(0)
+  tipo    String?
+}
+
+

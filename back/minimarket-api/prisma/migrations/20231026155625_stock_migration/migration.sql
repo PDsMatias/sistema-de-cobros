@@ -1,0 +1,18 @@
+-- RedefineTables
+PRAGMA foreign_keys=OFF;
+CREATE TABLE "new_Producto" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "nombre" TEXT NOT NULL,
+    "codigo" TEXT,
+    "precioPorPeso" DECIMAL NOT NULL DEFAULT 0,
+    "precioPorUnidad" DECIMAL NOT NULL DEFAULT 0,
+    "cantidadPeso" DECIMAL NOT NULL DEFAULT 0,
+    "cantidadUnidad" DECIMAL NOT NULL DEFAULT 0,
+    "tipo" TEXT
+);
+INSERT INTO "new_Producto" ("codigo", "id", "nombre", "precioPorPeso", "precioPorUnidad") SELECT "codigo", "id", "nombre", "precioPorPeso", "precioPorUnidad" FROM "Producto";
+DROP TABLE "Producto";
+ALTER TABLE "new_Producto" RENAME TO "Producto";
+CREATE UNIQUE INDEX "Producto_nombre_key" ON "Producto"("nombre");
+PRAGMA foreign_key_check;
+PRAGMA foreign_keys=ON;

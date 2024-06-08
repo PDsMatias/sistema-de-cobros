@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html translate="no" lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="code.jquery.com_jquery-3.7.0.min.js" rel="script" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <title>Cambiar precios</title>
+</head>
+
+<header id="header" style="height: 85px; background-color: #ea1111;">
+  <div class="row">
+
+    <div class="col-6 d-flex align-items-center">
+      <img style="margin: 10px; margin-left: 28px;" height="65px" width="70px" src="Minimercado Boro-logos.jpeg" alt="Carrito de compras" class="carrito-img">
+      <p style="color: #ffffff;" class="fw-light fs-1">Minimercado Boro</p>
+    </div>
+
+    <div class="col 1"></div>
+
+    <div class="col-5 d-flex justify-content-end">
+      <button style="margin: 15px; " id="paginaPrincipalBtn" class="float-right btn btn-light">Página principal</button>
+      <button style="margin-top: 15px; margin-right: 15px; margin-bottom: 15px;" id="crearProductoBtn" class="float-right btn btn-light">Crear Producto</button>
+      <button style="margin-right: 90px; margin-bottom: 15px; margin-top: 15px;" id="cambiarPreciosBtn" class="float-right btn btn-light">Cambiar Precios</button>
+    </div>
+
+  </div>
+</header>
+
+<body style="background-color: #ede8e8;">
+<div style="text-align: center; margin-top: 100px; margin-left:60px;" class="row">
+    <div class="col-5">
+
+      <div style="margin-left: 28px;" class="input-group mb-3">
+        <span style="box-shadow: 5px 5px 10px rgba(128, 128, 128, 0.5);  width: 40px; " class="input-group-text" id="basic-addon1">#</span>
+        <input style="box-shadow: 5px 5px 10px rgba(128, 128, 128, 0.5); height: 60px;" id="inputCodigo" autocomplete="off" type="number" class="form-control" placeholder="Buscar por código de barras" aria-label="Username" aria-describedby="basic-addon1">
+        </div>
+
+       <div style="margin-left: 28px;" class="input-group mb-3">
+        <span style="box-shadow: 5px 5px 10px rgba(128, 128, 128, 0.5);" class="input-group-text" id="basic-addon1">@</span>
+        <input style="box-shadow: 5px 5px 10px rgba(128, 128, 128, 0.5); height: 60px;" autocomplete="off" type="text" id="inputNombre" list="datalistProductos" class="form-control" placeholder="Buscar por nombre" aria-label="Username" aria-describedby="basic-addon1">
+        <datalist id="datalistProductos"></datalist>
+       </div>
+
+    </div>
+
+    <div class="col-1" style="padding: 0px; width: 10px;"></div>
+
+ <div style="background-color:#ffffff; border-radius: 10px; margin-left: 20px; margin-right: 90px;" class="col-5 columna2">
+
+    <div style="font-size: 15px; margin-top: 5px;"><p style="font-weight: bold;">Producto:</p><div style="margin-top: 15px;" id="productoDiv"></div></div>
+    <div style="background-color: rgb(255, 0, 0); height: 1px;"></div>
+
+    <div style="font-size: 15px; margin-top: 10px;"><p style="font-weight: bold;">Precio actual: </p><div style="margin-top: 15px;" id="precioActualDiv"></div> </div>
+    <div style="background-color: rgb(255, 0, 0); height: 1px;"></div>
+
+    <div class="input-group mb-3">
+      <span style=" text-align: center; margin-top:20px; box-shadow: 5px 5px 10px rgba(182, 181, 181, 0.5); height: 40px; margin-bottom: 15px;" class="input-group-text" id="basic-addon1">$</span>
+      <input id="inputPrecio" placeholder="Nuevo precio        " style=" text-align: center; margin-top:20px; box-shadow: 5px 5px 10px rgba(182, 181, 181, 0.5); height: 40px; margin-bottom: 15px;" autocomplete="off"  class="form-control"  aria-label="Username" aria-describedby="basic-addon1">
+      </div>
+  </div>
+</div>
+<div id="alertasUnidad">
+  <div style="background-color:#04b816;" id="mensajePrecioCambiado" class="hidden alert">¡Precio cambiado!</div>
+</div>
+  <style>
+  .hidden{
+    display: none;
+  }
+  .alert{
+        color: #d9d6d6;
+    }
+    
+    #alertasUnidad{
+        text-align: center;
+        margin-top: 10px;
+        border-radius: 5px;
+        width: 100%;
+    }
+	
+	#inputNombre:focus {
+	border: 2px solid #db3434; 
+	outline: none; 
+	box-shadow: 0 0 5px rgba(219, 52, 52, 0.7); 
+	}
+
+	#inputCodigo:focus {
+	border: 2px solid #db3434; 
+	outline: none; 
+	box-shadow: 0 0 5px rgba(219, 52, 52, 0.7); 
+	}
+</style>
+</body>
+</html>
+<script>
+const inputNombre = document.getElementById('inputNombre');
+const inputCodigo = document.getElementById('inputCodigo');
+const mensajeExito = document.getElementById('mensajePrecioCambiado')
+
+
+const productoDIv = document.getElementById('productoDiv');
+const precioActualDiv = document.getElementById('precioActualDiv')
+const inputPrecio = document.getElementById('inputPrecio')
+
+
+inputCodigo.focus();
+
+let productoActual;
+
+const buscarProductoPorCodigo = async () => {
+
+    const codigo = inputCodigo.value;
+    const producto = await obtenerProducto(codigo, "codigo");
+    
+    if (producto) {
+        agregarProductoADiv(producto);
+		productoActual = producto;
+        inputCodigo.value = '';
+  };
+}
+const obtenerProducto = async (valor, tipo) => {
+  try {
+    const response = await fetch(`http://localhost:3000/producto/${tipo}/${valor}`);
+    if (response.ok) {
+      const productoJson = await response.json();
+      return productoJson;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error('Error al comunicarse con el servidor:', error);
+    return null;
+  }
+}
+async function mostrarOpciones(){
+
+
+    const searchTerm = inputNombre.value.toLowerCase();
+  
+    try {
+      const matchedProducts = await obtenerProductosPorNombre(searchTerm);
+  
+      datalistProductos.innerHTML = '';
+      
+      for (let i = 0; i < matchedProducts.length; i++) {
+        const producto = matchedProducts[i];
+        const option = document.createElement('option');
+        option.value = producto.nombre;
+        datalistProductos.appendChild(option);}
+		
+		let matchedProduct;
+
+        matchedProduct = matchedProducts.find(product => product.nombre === inputNombre.value);
+
+        if (matchedProduct) {
+          inputNombre.value = ''
+		  productoActual = matchedProduct;
+          agregarProductoADiv(matchedProduct);
+        }
+		
+    } catch (error) {
+      console.error('Error al buscar productos por nombre:', error);
+    }
+}
+async function obtenerProductosPorNombre(nombre) {
+    if (!nombre) {
+      return null;
+    }
+    try {
+      const response = await fetch(`http://localhost:3000/productos?nombre=${nombre}`);
+      if (response.ok) {
+        const productosJson = await response.json();
+        const filteredProductos = productosJson.filter(producto => comienzaConLetra(producto.nombre, nombre));
+        return filteredProductos.length > 0 ? filteredProductos : null; 
+      } else {
+        return null; 
+      }
+    } catch (error) {
+      console.error('Error al buscar productos por nombre:', error);
+      return null; 
+    }
+}
+function comienzaConLetra(nombreProducto, letra) {
+return nombreProducto.toLowerCase().startsWith(letra.toLowerCase());
+}
+function agregarProductoADiv(producto) {
+ 
+  productoDIv.textContent = producto.nombre;
+
+  if (producto.precioPorUnidad == "0") {
+    precioActualDiv.textContent =  producto.precioPorPeso
+  }
+
+  if (producto.precioPorPeso == "0") {
+    precioActualDiv.textContent =  producto.precioPorUnidad
+  }
+    
+  inputPrecio.focus()
+  
+}
+
+async function cambiarPrecio(producto) {
+  if (!producto.precioPorUnidad == "0") {
+   
+    const productoData = {
+      nombre: productoDIv.textContent,
+      precioPorUnidad: inputPrecio.value,
+    };
+
+    const nombreProducto = producto.nombre;
+
+    try {
+      const response = await fetch(`http://localhost:3000/producto/nombre/${nombreProducto}`, {
+        method: 'PUT',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(productoData),
+      });
+
+      if (response.ok) {
+        mensajeExito.classList.remove('hidden');
+        await new Promise(resolve => setTimeout(resolve, 500));
+        mensajeExito.classList.add('hidden');
+        inputPrecio.value = '';
+        productoDIv.textContent = '';
+        precioActualDiv.textContent = '';
+        console.log(response);
+        inputNombre.focus();
+      } else {
+        console.error('Error al cambiar el precio del producto:', response.status);
+      }
+    } catch (error) {
+      console.error('Error al comunicarse con el servidor:', error);
+    }
+  }
+
+  if (producto.precioPorUnidad == "0") {
+    console.log(inputPrecio.value);
+
+    const productoData = {
+      nombre: productoDIv.textContent,
+      precioPorPeso: inputPrecio.value,
+    };
+
+    const nombreProducto = producto.nombre;
+
+    try {
+      const response = await fetch(`http://localhost:3000/producto/nombre/${nombreProducto}`, {
+        method: 'PUT',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(productoData),
+      });
+
+      if (response.ok) {
+	    console.log(response)
+        mensajeExito.classList.remove('hidden');
+        await new Promise(resolve => setTimeout(resolve, 500));
+        mensajeExito.classList.add('hidden');
+        inputPrecio.value = '';
+        productoDIv.textContent = '';
+        precioActualDiv.textContent = '';
+        inputNombre.focus();
+		return;
+      } else {
+        console.error('Error al cambiar el precio del producto:', response.status);
+      }
+    } catch (error) {
+      console.error('Error al comunicarse con el servidor:', error);
+    }
+  }
+}
+
+
+inputPrecio.addEventListener('keydown', async function (event) {
+		
+		var valorActual = event.target.value;
+		var soloNumeros = valorActual.replace(/[^0-9]/g, '');
+		event.target.value = soloNumeros;
+		
+		if (event.key === 'Enter') {
+			event.preventDefault();
+			cambiarPrecio(productoActual);
+ }
+ })
+
+inputNombre.addEventListener("input", function() {const consulta = inputNombre.value; if (consulta.length >= 2) { mostrarOpciones() }})
+
+let temporizador;
+
+function enviarUnSoloCodigo(){
+	buscarProductoPorCodigo()
+}
+
+inputCodigo.addEventListener('input', function(){
+	clearTimeout(temporizador);
+	
+	temporizador = setTimeout(enviarUnSoloCodigo, 200);
+});
+
+
+// seleccionar la busqueda por nombre
+document.addEventListener( 'keydown', (event) => {
+  if (event.key === "/"){ 
+    if (inputCodigo.focus) {
+      event.preventDefault()
+      inputNombre.focus()
+    }
+} 
+})
+
+// seleccionar la busqueda por codigo de barra
+document.addEventListener( 'keydown', (event) => {
+  if (event.key === "*"){ 
+    if (inputNombre.focus) {
+      event.preventDefault()
+      inputCodigo.focus()
+    }
+} 
+})
+
+// routing
+
+const cambiarPrecios = document.getElementById('cambiarPreciosBtn')
+cambiarPrecios.addEventListener('click', function() {
+inputCodigo.focus()
+return
+})
+
+const crearProducto = document.getElementById('crearProductoBtn')
+crearProducto.addEventListener("click", function() {
+window.location.href = "crear-producto.html"; 
+})
+
+const paginaPrincipal = document.getElementById('paginaPrincipalBtn');
+paginaPrincipal.addEventListener('click', function() {
+    window.location.href = "index.html" 
+})
+</script>
+

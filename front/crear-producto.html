@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html translate="no" lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="code.jquery.com_jquery-3.7.0.min.js" rel="script" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <title>Crear Producto</title>
+</head>
+
+<header id="header" style="height: 85px; background-color: #ea1111;">
+    <div class="row">
+  
+      <div class="col-6 d-flex align-items-center">
+        <img style="margin: 10px; margin-left: 28px;" height="65px" width="70px" src="Minimercado Boro-logos.jpeg" alt="Carrito de compras" class="carrito-img">
+        <p style="color: #ffffff;" class="fw-light fs-1">Minimercado Boro</p>
+      </div>
+  
+      <div class="col 1"></div>
+  
+      <div class="col-5 d-flex justify-content-end">
+        <button style="margin: 15px; " id="paginaPrincipalBtn" class="float-right btn btn-light">Página principal</button>
+        <button style="margin-top: 15px; margin-right: 15px; margin-bottom: 15px;" id="crearProductoBtn" class="float-right btn btn-light">Crear Producto</button>
+        <button style="margin-right: 90px; margin-bottom: 15px; margin-top: 15px;" id="cambiarPreciosBtn" class="float-right btn btn-light">Cambiar Precios</button>
+      </div>
+  
+    </div>
+  </header>
+
+    <body style="background-color: #ede8e8;" class="body">
+
+    <div class="row">
+
+    <div id="contenedorSinCodigo" class="hidden container col-6">
+        <h1 class="text">Producto sin codigo</h1>
+        <div style="background-color: rgb(255, 0, 0); height: 1px;">.</div>
+        <br>
+            <div class="mb-3">
+            <label class="form-label" for="nombre">Nombre:</label>
+            <input class="form-control input" autocomplete="off" type="text" id="nombreSinCodigo" name="nombre"><br>
+            </div>
+
+            <div class="mb-3">
+            <label class="form-label" for="precioPorUnidad">Precio por unidad:</label>
+            <input class="form-control input" autocomplete="off" type="number" id="precioSinCodigo" name="precioPorUnidad"><br>
+            </div>
+    </div>
+
+      <div id="contenedorUnidad" class="container col-6">
+          <h1 class="text">Producto con codigo</h1>
+          <div style="background-color: rgb(255, 0, 0); height: 1px;">.</div>
+          <br>
+              <div class="mb-3">
+              <label class="form-label" for="nombre">Nombre:</label>
+              <input class="form-control input" autocomplete="off" type="text" id="nombreUnidad" name="nombre" required><br>
+              </div>
+
+              <div class="mb-3">
+              <label class="form-label" for="codigo">Código:</label>
+              <input class="form-control input" pattern="[0-9]{13}" type="number" autocomplete="off" type="text" id="codigoUnidad" name="codigo" required><br>
+              </div>
+
+              <div class="mb-3">
+              <label class="form-label" for="precioPorUnidad">Precio por unidad:</label>
+              <input class="form-control input" autocomplete="off" type="number" id="precioPorUnidad" name="precioPorUnidad" required><br>
+              </div>
+      </div>
+    
+      <div id="contenedorPeso" class="hidden container col-6">
+          <h1 class="text">Producto por peso</h1>
+          <div style="background-color: rgb(255, 0, 0); height: 1px;">.</div>
+          
+
+              <div style="margin-top: 10px;" class="mb-3"> 
+              <label class="form-label" for="nombrePeso">Nombre:</label> 
+              <input class="form-control input" autocomplete="off" type="text" id="nombrePeso" name="nombre" required><br>
+              </div>
+  
+              <div class="mb-3">
+              <label class="form-label" for="precioPorPeso">Precio por kg:</label>
+              <input class="form-control input" autocomplete="off" type="number" id="precioPorPeso" name="precioPorPeso" required><br>
+              </div>
+      </div>
+
+      <div class="col-3" id="switchForms">
+      <button id="switchProductoCodigo" class="btn button">Crear producto con codigo</button>
+      <br>
+      <button id="switchProductoSinCodigo" class="btn button">Crear producto sin codigo</button>
+      <br>
+      <button id="switchProductoPeso" class="btn button">Crear Producto por peso</button>
+      </div>
+
+      <div class="col-1"></div>
+    
+    </div>
+
+    <div id="alertasUnidad">
+      <div style="background-color:#e40808;" id="productoSinNombrePeso" class="hidden alert">Producto sin nombre.</div>
+      <div style="background-color:#04b816;" id="productoCreadoPeso" class="hidden alert">¡Producto creado!</div>
+      <div style="background-color:#e40808;" id="productoSinPrecioPeso" class="hidden alert">Producto sin precio.</div>
+    </div>
+    <div id="alertasUnidad">
+      <div style="background-color:#e40808;" id="productoSinNombre" class="hidden alert">Producto sin nombre.</div>
+      <div style="background-color:#e40808;" id="productoSinCodigo" class="hidden alert">Producto sin codigo.</div>
+      <div style="background-color:#e40808;" id="productoConMenosde13" class="hidden alert">El codigo debe tener 13 dígitos.</div>
+      <div style="background-color:#04b816;" id="productoCreado" class="hidden alert">¡Producto creado!</div>
+      <div style="background-color:#e40808;" id="productoPrecioMuyGrande" class="hidden alert">Producto con precio demasiado grande.</div>
+      <div style="background-color:#e40808;" id="productoSinPrecio" class="hidden alert">Producto sin precio.</div>
+    </div>
+    <div id="alertasSinCodigo">
+      <div style="background-color:#e40808;" id="productoSinNombreCodigo" class="hidden alert">Producto sin nombre.</div>
+      <div style="background-color:#04b816;" id="productoCreadoCodigo" class="hidden alert">¡Producto creado!</div>
+     <div style="background-color:#e40808;" id="productoSinPrecioCodigo" class="hidden alert">Producto sin precio.</div>
+    </div>
+  
+  
+
+</body>
+<style>
+.hidden{
+display: none;
+}
+    
+.container{
+background-color: rgb(255, 252, 252);
+justify-content: center;
+text-align: center;
+border-radius: 20px;
+width: 500px;
+margin-top: 40px;
+padding: 10px;
+}
+
+.text{
+font-size: 20px;
+}
+
+.alert{
+color: #d9d6d6;
+}
+    
+#alertasUnidad{
+text-align: center;
+margin-top: 10px;
+border-radius: 5px;
+}
+
+.input:focus {
+border: 2px solid #db3434; 
+outline: none; 
+box-shadow: 0 0 5px rgba(219, 52, 52, 0.7); 
+}
+
+#switchForms{
+background-color: #ffffff;
+margin-top: 40px;
+border-radius: 15px;
+}
+
+.button{
+width: 100%;
+margin-top: 45px;
+height: 70px;
+background-color: #ff0000;
+color: white;
+}
+</style>
+
+<script>
+  
+// form unidad con codigo
+const containerU = document.getElementById('contenedorUnidad')
+
+const nombreUnidad = document.getElementById('nombreUnidad')
+const codigoUnidad = document.getElementById('codigoUnidad')
+const preciounidad = document.getElementById('precioPorUnidad')
+
+nombreUnidad.focus()
+
+// mensajes
+const mensajeProductoSinNombre       = document.getElementById('productoSinNombre');
+const mensajeProductoSinCodigo       = document.getElementById('productoSinCodigo');
+const mensajeProductoConMenosde13    = document.getElementById('productoConMenosde13');
+const mensajeProductoCreado          = document.getElementById('productoCreado');
+const mensajeProductoPrecioMuyGrande = document.getElementById('productoPrecioMuyGrande');
+const mensajeProductoSinPrecio       = document.getElementById('productoSinPrecio');
+
+nombreUnidad.addEventListener('input', () => {mensajeProductoSinNombre.classList.add('hidden')})
+preciounidad.addEventListener('input', () => {mensajeProductoSinPrecio.classList.add('hidden')})
+
+nombreUnidad.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+        codigoUnidad.focus()
+      }
+});
+codigoUnidad.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+        preciounidad.focus()
+      }
+});
+preciounidad.addEventListener('keydown', async (event) => {
+  if (event.key === 'Enter') {
+
+    if (nombreUnidad.value === "") {
+        mensajeProductoSinNombre.classList.remove('hidden')
+        nombreUnidad.focus()
+        return
+    }
+
+    if (codigoUnidad.value === "") {
+        mensajeProductoSinCodigo.classList.remove('hidden')
+        codigoUnidad.focus()
+        return
+    }
+
+    if (preciounidad.value === "") {
+        mensajeProductoSinPrecio.classList.remove('hidden')
+        preciounidad.focus()
+        return
+    }
+    
+    if (preciounidad.value === "0") {
+        mensajeProductoSinPrecio.classList.remove('hidden')
+        preciounidad.focus()
+        return
+    }
+
+    if (!/^\d{1,6}$/.test(preciounidad.value)) {
+        mensajeProductoPrecioMuyGrande.classList.remove('hidden')
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        mensajeProductoPrecioMuyGrande.classList.add('hidden')
+        preciounidad.value = ''
+        preciounidad.focus()
+        return
+    }
+  
+
+    
+
+    const productoData = {
+      nombre: nombreUnidad.value,
+      codigo: codigoUnidad.value,
+      precioPorUnidad: preciounidad.value,
+      precioPorPeso: null,
+    };
+
+    try {
+      const response = await fetch('http://localhost:3000/producto', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(productoData),
+      });
+
+      if (response.ok) {
+        
+        mensajeProductoCreado.classList.remove('hidden')
+        await new Promise(resolve => setTimeout(resolve, 500));
+        mensajeProductoCreado.classList.add('hidden')
+
+        nombreUnidad.value = '';
+        preciounidad.value = '';
+        codigoUnidad.value = '';
+        
+        nombreUnidad.focus()
+        
+        
+      } else {
+        console.error('Error al crear el producto:', response.status);
+      }
+    } catch (error) {
+      console.error('Error al comunicarse con el servidor:', error);
+    }
+  }
+});
+
+
+// form peso
+const containerP = document.getElementById('contenedorPeso')
+
+const nombrePeso = document.getElementById('nombrePeso')
+const precioPeso = document.getElementById('precioPorPeso')
+
+// mensajes
+const mensajeProductoSinNombrePeso       = document.getElementById('productoSinNombrePeso');
+const mensajeProductoCreadoPeso          = document.getElementById('productoCreadoPeso');
+const mensajeProductoSinPrecioPeso       = document.getElementById('productoSinPrecioPeso');
+
+nombrePeso.addEventListener('input', () => {mensajeProductoSinNombrePeso.classList.add('hidden')})
+precioPeso.addEventListener('input', () => {mensajeProductoSinPrecioPeso.classList.add('hidden')})
+
+
+nombrePeso.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+        precioPeso.focus()
+      }
+});
+precioPeso.addEventListener('keydown', async (event) => {
+  if (event.key === 'Enter') {
+    
+    if (nombrePeso.value === "") {
+        mensajeProductoSinNombrePeso.classList.remove('hidden')
+        nombrePeso.focus()
+        return
+    }
+
+    if (precioPeso.value === "") {
+        mensajeProductoSinPrecioPeso.classList.remove('hidden')
+        precioPeso.focus()
+        return
+    }
+
+    if (precioPeso.value === "0") {
+        mensajeProductoSinPrecioPeso.classList.remove('hidden')
+        precioPeso.focus()
+        return
+    }
+    
+    
+    const productoData = {
+      nombre: nombrePeso.value,
+      codigo: null,
+      precioPorUnidad: null,
+      precioPorPeso: precioPeso.value,
+    };
+
+    try {
+      const response = await fetch('http://localhost:3000/producto', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(productoData),
+      });
+  
+      if (response.ok) {
+
+        mensajeProductoCreadoPeso.classList.remove('hidden')
+        await new Promise(resolve => setTimeout(resolve, 500));
+        mensajeProductoCreadoPeso.classList.add('hidden')
+
+        nombrePeso.value = '';
+        precioPeso.value = '';
+        
+        nombrePeso.focus()
+      } else {
+        console.error('Error al crear el producto:', response.status);
+      }
+    } catch (error) {
+      console.error('Error al comunicarse con el servidor:', error);
+    }
+}});
+
+// form unidad sin codigo
+const containerSinCodigo = document.getElementById('contenedorSinCodigo')
+
+const nombreSinCodigo = document.getElementById('nombreSinCodigo')
+const precioSinCodigo = document.getElementById('precioSinCodigo')
+// mensajes
+
+const mensajeProductoSinNombreSinCodigo = document.getElementById('productoSinNombreCodigo') 
+const mensajeProductoSinPrecioSinCodigo = document.getElementById('precioSinCodigo')
+const mensajeProductoCreadoSinCodigo = document.getElementById('productoCreadoCodigo')
+
+nombreSinCodigo.addEventListener('input', () => {mensajeProductoSinNombrePeso.classList.add('hidden')})
+precioSinCodigo.addEventListener('input', () => {mensajeProductoSinPrecioPeso.classList.add('hidden')})
+
+nombreSinCodigo.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+        precioSinCodigo.focus()
+      }
+});
+precioSinCodigo.addEventListener('keydown', async (event) => {
+  if (event.key === 'Enter') {
+    
+    if (nombreSinCodigo.value === "") {
+        mensajeProductoSinNombreSinCodigo.classList.remove('hidden')
+        nombreSinCodigo.focus()
+        return
+    }
+
+    if (precioSinCodigo.value === "") {
+        mensajeProductoSinPrecioSinCodigo.classList.remove('hidden')
+        precioSinCodigo.focus()
+        return
+    }
+
+    if (precioSinCodigo.value === "0") {
+        mensajeProductoSinPrecioSinCodigo.classList.remove('hidden')
+        precioSinCodigo.focus()
+        return
+    }
+    
+    
+    const productoData = {
+      nombre: nombreSinCodigo.value,
+      codigo: null,
+      precioPorUnidad: precioSinCodigo.value,
+      precioPorPeso: null,
+    };
+
+    try {
+      const response = await fetch('http://localhost:3000/producto', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(productoData),
+      });
+  
+      if (response.ok) {
+
+        mensajeProductoCreadoSinCodigo.classList.remove('hidden')
+        await new Promise(resolve => setTimeout(resolve, 500));
+        mensajeProductoCreadoSinCodigo.classList.add('hidden')
+
+        nombreSinCodigo.value = '';
+        precioSinCodigo.value = '';
+        
+        nombreSinCodigo.focus()
+      } else {
+        console.error('Error al crear el producto:', response.status);
+      }
+    } catch (error) {
+      console.error('Error al comunicarse con el servidor:', error);
+    }
+}});
+
+// switch forms
+
+const buttonFormUnidad = document.getElementById('switchProductoCodigo')
+const buttonFormUnidadSinCodigo = document.getElementById('switchProductoSinCodigo')
+const buttonFormPeso = document.getElementById('switchProductoPeso')
+
+buttonFormUnidad.addEventListener('click', () => {
+
+containerU.classList.remove('hidden')
+nombreUnidad.value = ''
+codigoUnidad.value = ''
+preciounidad.value = ''
+nombreUnidad.focus()
+
+containerP.classList.add('hidden')
+precioPeso.value = ''
+nombrePeso.value = ''
+
+containerSinCodigo.classList.add('hidden')
+nombreSinCodigo.value = ''
+precioSinCodigo.value = ''
+})
+
+buttonFormUnidadSinCodigo.addEventListener('click', () => {
+
+containerU.classList.add('hidden')
+nombreUnidad.value = ''
+codigoUnidad.value = ''
+preciounidad.value = ''
+
+containerP.classList.add('hidden')
+precioPeso.value = ''
+nombrePeso.value = ''
+
+containerSinCodigo.classList.remove('hidden')
+nombreSinCodigo.value = ''
+precioSinCodigo.value = ''
+nombreSinCodigo.focus()
+})
+
+buttonFormPeso.addEventListener('click', () => {
+
+containerU.classList.add('hidden')
+nombreUnidad.value = ''
+codigoUnidad.value = ''
+preciounidad.value = ''
+
+containerP.classList.remove('hidden')
+precioPeso.value = ''
+nombrePeso.value = ''
+nombrePeso.focus()
+
+containerSinCodigo.classList.add('hidden')
+nombreSinCodigo.value = ''
+precioSinCodigo.value = ''
+})
+
+// routing
+const paginaPrincipal = document.getElementById('paginaPrincipalBtn')
+paginaPrincipal.addEventListener("click", function() {
+  window.location.href = "index.html"; 
+});
+
+const crearProducto = document.getElementById('crearProductoBtn')
+crearProducto.addEventListener('click', function() {
+nombreUnidad.focus()
+return
+})
+
+const cambiarPrecios = document.getElementById('cambiarPreciosBtn')
+cambiarPrecios.addEventListener('click', function() {
+  window.location.href = "cambiar-precios.html"; 
+})
+</script>
+</html>
+
+

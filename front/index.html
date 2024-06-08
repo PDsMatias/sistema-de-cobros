@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html translate="no"  lang="en">
+ <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="code.jquery.com_jquery-3.7.0.min.js" rel="script" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <title>Sistema de cobros</title>
+ </head>
+
+<header id="header" style="height: 85px; background-color: #ea1111;">
+  <div class="row">
+
+    <div class="col-6 d-flex align-items-center">
+      <img style="margin: 10px; margin-left: 28px;" height="65px" width="70px" src="Minimercado Boro-logos.jpeg" alt="Carrito de compras" class="carrito-img">
+      <p style="color: #ffffff;" class="fw-light fs-1">Minimercado Boro</p>
+    </div>
+
+    <div class="col 1"></div>
+
+    <div class="col-5 d-flex justify-content-end">
+      <button style="margin: 15px; " id="paginaPrincipalBtn" class="float-right btn btn-light">Nueva compra</button>
+      <button style="margin-top: 15px; margin-right: 15px; margin-bottom: 15px;" id="crearProductoBtn" class="float-right btn btn-light">Crear Producto</button>
+      <button style="margin-right: 90px; margin-bottom: 15px; margin-top: 15px;" id="cambiarPreciosBtn" class="float-right btn btn-light">Cambiar Precios</button>
+    </div>
+
+  </div>
+</header>
+<body style="background-color: #ede8e8;">
+  
+  <div class="hidden" id="consultarPreciosDiv">
+    <div style="width: 90%; margin-left: 5%;" class="input-group mb-3">
+      <span style="box-shadow: 5px 5px 10px rgba(128, 128, 128, 0.5); margin-top: 20px; width: 41px; " class="input-group-text" id="basic-addon1">#</span>
+      <input style="box-shadow: 5px 5px 10px rgba(128, 128, 128, 0.5); margin-top: 20px; height: 60px;" id="inputCodigoDeBarrasConsulta" autocomplete="off" type="number" class="form-control" placeholder="Buscar por código de barras" aria-label="Username" aria-describedby="basic-addon1">
+    </div>
+
+    <div style="width: 90%; margin-left: 5%;" class="input-group mb-3">
+      <span style="box-shadow: 5px 5px 10px rgba(128, 128, 128, 0.5); " class="input-group-text" id="basic-addon1">@</span>
+      <input style="box-shadow: 5px 5px 10px rgba(128, 128, 128, 0.5); height: 60px;" autocomplete="off" type="text" id="inputNombreConsulta" list="datalistProductosConsulta" class="form-control" placeholder="Buscar por nombre" aria-label="Username" aria-describedby="basic-addon1">
+      <datalist id="datalistProductosConsulta"></datalist>
+    </div>
+    
+    <div style="margin-top: 20px;" id="consultaProductoDiv">
+     <div style="font-size: 40px; text-align: center; font-family: monospace;" >Precio: </div>
+     <div style="font-size: 40px; text-align: center; font-family: monospace;" id="precioConsulta">$</div>
+    </div>
+  </div>
+
+  <div id="pageItems" class="row">   
+    <div style= "border-radius: 5px; margin-left: 20px; margin-left: 40px ; margin-bottom: 17px ;background-color: #ffffff; margin-top: 50px;  box-shadow: 5px 5px 10px rgba(128, 128, 128, 0.5);" class="col-6" id="contenedorTablaTicket">
+        <div class="table table-hover Tabla">
+          <table>
+            <thead>
+              <tr>
+                <th class="celdaHeader">Código</th>
+                <th class="celdaHeader">Nombre</th>
+                <th class="celdaHeader">Precio</th>
+                <th class="celdaHeader">Cantidad</th>
+                <th class="celdaHeader">Restar</th>
+                <th class="celdaHeader">Sumar</th>
+              </tr>
+            </thead>
+            <tbody id="tabla">
+            </tbody>
+          </table>
+
+          <div id="mensajeNoEncontrado"  class="mensaje-no-encontrado hidden">Producto no encontrado. anotalo para que mati lo registre.</div>
+          <div id="MensajeproductoRepetido" class="mensaje-no-encontrado hidden">El producto ya se encuentra en la tabla</div>
+          <div id="MensajeproductoSinPeso" class="mensaje-no-encontrado hidden">Añada un peso en el producto(s)</div>
+          <div id="MensajefinalizarSinPeso" class="mensaje-no-encontrado hidden">Añada peso a todos los productos antes de finalizar</div>
+          <div id="FinalizarSinProductos" class="mensaje-no-encontrado hidden">Añada productos antes de finalizar</div>
+		  <div id="MensajefinalizarSinPrecioEntextarea" class="mensaje-no-encontrado hidden">introduzca un precio.</div>
+		  <div id="MensajefinalizarSinNombreEntextarea" class="mensaje-no-encontrado hidden">introduzca un nombre.</div>
+
+        </div>
+      </div>
+
+      <div id="columna2" class="col-5 columna2">
+
+        <div style= "border-radius: 5px; margin-top: 50px; text-align: center; background-color: #ffffff; box-shadow: 5px 5px 10px rgba(128, 128, 128, 0.5); width: 100%;" class="div2">
+          <div style= "border-radius: 5px; font-size: 30px; background-color: rgb(205, 203, 203); padding-top: 30px; padding-bottom: 30px; color: #ffffff;" id="total" class="Total">
+            Total: $0.00
+          </div>
+        </div>
+
+        <div class="input-group mb-3">
+          <span style="box-shadow: 5px 5px 10px rgba(128, 128, 128, 0.5); margin-top: 40px; width: 41px; " class="input-group-text" id="basic-addon1">#</span>
+          <input  style="box-shadow: 5px 5px 10px rgba(128, 128, 128, 0.5); margin-top: 40px; height: 60px;" id="inputCodigoDeBarras" autocomplete="off" type="number" class="form-control" placeholder="Buscar por código de barras" aria-label="Username" aria-describedby="basic-addon1">
+        </div>
+
+        <div class="input-group mb-3">
+          <span style="box-shadow: 5px 5px 10px rgba(128, 128, 128, 0.5); " class="input-group-text" id="basic-addon1">@</span>
+          <input style="box-shadow: 5px 5px 10px rgba(128, 128, 128, 0.5); height: 60px;" autocomplete="off" type="text" id="inputNombre" list="datalistProductos" class="form-control" placeholder="Buscar por nombre" aria-label="Username" aria-describedby="basic-addon1">
+          <datalist id="datalistProductos"></datalist>
+        </div>
+      </div>
+  </div>
+</body>
+</html>
+
+<style>
+#consultaProductoDiv{
+  background-color: white;
+  margin-left: 30px;
+  height: 200px;
+  width: 540px;
+  border-radius: 10px;
+}
+
+#consultarPreciosDiv{
+  width: 600px;
+  height: 397px;
+  background-color: #ea1111;
+  position: absolute;
+  z-index: 4;
+  margin-left: 450px;
+  margin-top: 48px;
+  border-radius: 10px;
+}
+
+.blur{
+  filter: blur(5px);
+}
+
+.button {
+  border-radius: 5px;
+  background-color: #ea1111;
+  border: none; 
+  font-size: 15px;
+  color: #ffffff;
+  margin: 5px;
+  margin-left: 45px;
+  width: 30px;
+  height: 30px;
+  text-align: center; 
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+}  
+ .hidden{
+  display: none;
+}
+ .celdaHeader{
+  padding: 10px;
+  margin: 10px;
+  width: 150px;
+  justify-content: center;
+  text-align: center;
+  }
+ .nueva-fila{
+  font-weight: bold;
+  padding: 5px;
+  font-size: 15px;
+  text-align: center;
+    }
+ 
+ .inputPeso{ 
+  width: 80px;
+  height: 30px;
+  margin-left: 25px;
+  font-size: 13px;
+  text-align: center;
+  font-weight: bold;
+  display: flex;
+      } 
+ .mensaje-no-encontrado{
+  color: #ffffff;
+  background-color: #ea1111;
+  text-align: center;
+  border-radius: 5px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  } 
+ #contenedorTablaTicket{
+  margin-left: 400px;
+}
+
+.ticket{
+  background-color: #ffffff;
+  text-align: center;
+  width: 335px;
+  margin-left: 400px;
+}
+
+.input{
+  border: 2px solid #db3434; 
+  outline: none; 
+  box-shadow: 0 0 5px rgba(219, 52, 52, 0.7); 
+}
+
+#inputNombre:focus {
+  border: 2px solid #db3434; 
+  outline: none; 
+  box-shadow: 0 0 5px rgba(219, 52, 52, 0.7); 
+}
+
+#inputCodigoDeBarras:focus {
+  border: 2px solid #db3434; 
+  outline: none; 
+  box-shadow: 0 0 5px rgba(219, 52, 52, 0.7); 
+}
+
+.mi-textarea-estilos {
+  width: 50px;
+  font-size: 15px;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  border: none;
+}
+
+.mi-textarea-estilos::placeholder {
+  line-height: 45px; 
+  display: flex;
+  align-items: center;
+}
+
+ </style>
+
+<script src="Cobros.js"></script>

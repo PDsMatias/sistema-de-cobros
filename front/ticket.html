@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="code.jquery.com_jquery-3.7.0.min.js" rel="script" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <title>Ticket</title>
+</head>
+<body style="background-color: #ede8e8;">
+    <div style="font-size: 70px; font-family: monospace; font-weight: bolder; margin-left: 300px; margin-top: 100px;">Imprimiendo ticket...</div>
+	
+    <div class="row hidden">
+            <div id="ticketPagina">
+
+                <div class="ticketHeaderPagina">
+                    <div class="row">
+                        <img style="margin: 10px; margin-left: 10px;" height="200px"  src="Logo-gris.jpg" alt="Carrito de compras" class="col-3">
+                        <p style="font-family: monospace;font-size: 80px; padding-top: 30px;" class="col-8">MINIMERCADO BORO</p>
+                        <div style="height: 3px; background-color: black; width: 100%;" ></div>
+                    </div>
+                </div>
+            
+                    <p style="font-family: monospace; font-size: 40px;">
+                    LUCIO V. LÓPEZ, AMADEO CARLETTI 404
+                    <br>
+                    TEL: 3476551509
+                    <br>
+                    LUN A LUN, 08:00-13:00/16:30-21:00</p>
+                    
+                <div style="height: 3px; background-color: black; width: 100%;"></div>
+                    
+                <div class="ticketTabla">
+                    <table id="tablaTicket" style="width: 100%; font-family: monospace; font-size: 40px; ">
+                    <th>Descripcion</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    </table>
+                
+                    <div style="height: 3px; width: 100%; font-size: 60px; ">--------------------------------------</div>
+                    <br>
+                    <div class="row" style="font-family: monospace; font-size: 60px; margin-top: 60px;">
+                    <div id="cantidadProductos" class="col-6"></div> <div id="totalDiv" class= "col-6"></div>
+                    </div>
+                    <div style="height: 2px; width: 100%; font-size: 60px; ">----------------------------------------------</div>
+                    <br>
+                    <div style="font-family: monospace; font-size: 40px; margin-top: 40px;" id="fechaHoraEmision" class="font-weight-bold">Fecha y Hora de Emisión: <span id="fechaHoraValor"></span></div>
+                    <div style="font-family: monospace; margin-top: 40px; font-size: 60px;">¡Que tenga un buen dia!</div>
+                </div>
+            </div>
+    </div>
+</body>
+</html>
+
+<script>
+    const listaProductosJSON = localStorage.getItem('listaProductos');
+    const listaProductos = JSON.parse(listaProductosJSON);
+
+    const total = totalCompra = parseFloat(localStorage.getItem('totalCompra'));
+        
+    const tablaTicket = document.getElementById('tablaTicket')
+    const totalDiv = document.getElementById('totalDiv')
+    const cantidadProductos = document.getElementById('cantidadProductos')
+    const ultimaIteracion = listaProductos.length - 1;
+    
+    for (let i = 0; i < listaProductos.length; i++) {
+      const producto = listaProductos[i];
+      const row = tablaTicket.insertRow();
+      row.insertCell().textContent = producto.nombre;
+      row.insertCell().textContent = producto.cantidadPeso ? producto.cantidadPeso + "g" : producto.cantidad;
+      row.insertCell().textContent = producto.cantidadPeso ? (producto.precio * producto.cantidadPeso / 1000 + "$") : (producto.precio * producto.cantidad + "$");
+    
+      if (i === ultimaIteracion) {
+        cantidadProductos.innerHTML = listaProductos.length + " Producto(s)";
+        totalDiv.innerHTML = "Total " + totalCompra + "$";
+      }
+    }
+    
+    function obtenerFechaHoraActual() {
+      const now = new Date();
+      const options = {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      };
+      return now.toLocaleString('es-ES', options);
+    }
+    const fechaHoraValor = document.getElementById('fechaHoraValor');
+    function actualizarFechaHora() {
+      fechaHoraValor.textContent = obtenerFechaHoraActual();
+    }
+    actualizarFechaHora();
+
+    function convertirEnBuffer() {
+    const htmlData = 
+     pdf
+    }
+
+
+
+const currentURL = window.location.href;
+
+const indexOfTicketHTML = currentURL.indexOf('/ticket.html');
+
+if (indexOfTicketHTML !== -1) {
+  const newURL = currentURL.substring(0, indexOfTicketHTML + 12); // 12 es la longitud de "/ticket.html"
+  history.replaceState({}, document.title, newURL);
+}
+
+const totalPDF = totalDiv.textContent
+const cantidadProductosPDF = cantidadProductos.textContent
+const fechaHoraValorPDF = fechaHoraValor.textContent
+
+let tablaHTML = '<table style="width: 100%; font-family: monospace; font-size: 40px; text-align: center;">';
+    tablaHTML += '<tr style="background-color: #ccc; font-size:50px;"><th style="padding: 5px; font-size:50px;">Descripción</th><th style="padding: 5px;">Cantidad</th><th style="padding: 5px; font-size:50px;">Precio</th></tr>';
+
+for (let i = 0; i < listaProductos.length; i++) {
+const producto = listaProductos[i];
+  tablaHTML += '<tr>';
+  tablaHTML += `<td style="font-weight:700;">${producto.nombre}</td>`;
+  tablaHTML += `<td style="font-weight:700;">${producto.cantidadPeso ? producto.cantidadPeso + "g" : producto.cantidad}</td>`;
+  tablaHTML += `<td style="font-weight:700;">${producto.cantidadPeso ? (producto.precio * producto.cantidadPeso / 1000 + "$") : (producto.precio * producto.cantidad + "$")}</td>`;
+  tablaHTML += '</tr>';
+};
+
+tablaHTML += '</table>';
+
+// Datos variables en el PDF
+const datosVariables = {
+    tablaHTML,
+    totalPDF,
+    cantidadProductosPDF,
+    fechaHoraValorPDF
+};
+
+
+// HTML 
+const htmlContent = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+ #ticketPagina{
+    background-color: #ffff;
+    text-align: center;
+ }
+</style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="code.jquery.com_jquery-3.7.0.min.js" rel="script" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Ticket</title>
+</head>
+<body style="background-color: #ede8e8;">
+    <div class="row">
+            <div id="ticketPagina">
+
+                <div class="ticketHeaderPagina">
+                    <div class="row">
+                        <img style="margin: 10px; margin-left: 30px; margin-top:50px;" height="200px" src="https://tse1.mm.bing.net/th?id=OIP.Gm7alij1D_f0_QLQPhAIAgAAAA&pid=Api&P=0&h=180" alt="Carrito de compras" class="col-3">
+                        <p style="font-weight :600;font-family: font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; ;font-size: 80px; padding-top: 20px;" class="col-8">MINIMERCADO BORO</p>
+                        <div style="height: 10px; background-color: black; width: 100%;" ></div>
+                    </div>
+                </div>
+            
+                    <p style="font-family: monospace; font-size: 40px; font-weight:bold;">
+                    LUCIO V. LÓPEZ, GÜEMES 819
+                    <br>
+                    TEL: 3476699111
+                    <br>
+                    LUN A LUN, 08:00-12:30/17:00-21:00</p>
+                    
+                <div style="height: 3px; background-color: black; width: 100%;"></div>
+                    
+                <div class="ticketTabla">
+                        ${datosVariables.tablaHTML}
+
+                    <div style="height: 3px; width: 100%; font-size: 60px; ">--------------------------------------</div>
+                    <br>
+                    <div class="row" style="font-family: monospace; font-size: 60px; margin-top: 60px;">
+                    <div id="cantidadProductos" style= "font-weight:bold;" class="col-6">${datosVariables.cantidadProductosPDF}</div><div style="margin-top: 70px; font-weight:bold;" id="totalDiv"  class= "col-6">${datosVariables.totalPDF}</div>
+                    </div>
+                    <div style="height: 2px; width: 100%; font-size: 60px; ">---------------------------------------</div>
+                    <br>
+                    <div style="font-family: monospace; font-size: 40px; margin-top: 40px; font-weight:bold;" id="fechaHoraEmision" class="font-weight-bold">Fecha y Hora de Emisión: <span id="fechaHoraValor">${datosVariables.fechaHoraValorPDF}</span></div>
+                    <div style="font-family: monospace; margin-top: 40px; font-size: 60px; font-weight: bold;">¡Que tenga un buen dia!</div>
+                </div>
+            </div>
+    </div>
+</body>
+</html>
+`;
+
+// Crea un objeto de solicitud con el HTML
+const requestData = { html: htmlContent};
+
+// Realiza una solicitud POST al servidor
+fetch('http://localhost:3000/ticket/pdf', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(requestData),
+})
+  .then(response => {
+    if (response.ok) {
+        console.log('you are the boss');
+        window.close();
+      return response.blob();
+    } else {
+      throw new Error('Error al obtener el archivo PDF');
+    }
+  })
+  .then(pdfBlob => {
+    const pdfURL = URL.createObjectURL(pdfBlob);
+    window.open(pdfURL, '_blank');
+  })
+  .catch(error => {
+    console.error(error);
+  });
+
+
+
+</script>
+    
+<style>
+ #ticketPagina {
+    background-color: #ffff;
+    text-align: center;
+    width: 800px;
+ }
+ 
+ .hidden {
+    display: none;
+ }
+
+
+</style>
+

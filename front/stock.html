@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html translate="no"  lang="en">
+ <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="code.jquery.com_jquery-3.7.0.min.js" rel="script" />
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <title>Sistema de stock</title>
+ </head>
+
+<header style="height: 85px; background-color: #ea1111;">
+  <div class="row">
+    <div class="col-6 d-flex align-items-center">
+      <img style="margin: 10px; margin-left: 28px;" height="65px" width="70px" src="Minimercado Boro-logos.jpeg" alt="Carrito de compras" class="carrito-img">
+      <p style="color: #ffffff;" class="fw-light fs-1">Minimercado Boro</p>
+    </div>
+    <div class="col 1"></div>
+    <div class="col-5 d-flex justify-content-end">
+      <button style="margin: 15px; " id="crearProductoBtn" class="float-right btn btn-light">Crear Producto</button>
+      <button style="margin-right: 90px; margin-bottom: 15px; margin-top: 15px;" id="cambiarPreciosBtn" class="float-right btn btn-light">Cambiar Precios</button>
+    </div>
+  </div>
+</header>
+
+<body style="background-color: #ede8e8;">
+  <div id="pageItems" class="row">   
+    <div style="margin-left: 27px; width:798px ;"  class="col-6"><input id="categoría" class="form-control" style="width:780px; height: 30px; margin-top: 5px; text-align: center;"  placeholder="Categoría"></div>
+    <div style= "border-radius: 5px; margin-left: 20px; margin-left: 40px ; margin-bottom: 17px ;background-color: #ffffff; margin-top: 5px;  box-shadow: 5px 5px 10px rgba(128, 128, 128, 0.5);" class="col-6">
+        <div class="table table-hover Tabla">
+          <table style="width: 755px;">
+            <thead>
+              <tr>
+                <th class="celdaHeader"><input style="text-align: center;"  id="inputCodigoDeBarras" autocomplete="off" type="number" class="form-control" placeholder="#codigo" aria-label="Username" aria-describedby="basic-addon1"></th>
+                <th class="celdaHeader"><input style="text-align: center;" autocomplete="off" type="text" id="inputNombre" list="datalistProductos" class="form-control" placeholder="@nombre" aria-label="Username" aria-describedby="basic-addon1"></th>
+                <th class="celdaHeader">Precio</th>
+                <th class="celdaHeader">Cantidad</th>
+              </tr>
+            </thead>
+            <tbody id="tabla">
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="columna2" class="col-5 columna2">
+      </div>
+  </div>
+  <div class="hidden" id="ticketDiv">
+    <div class="ticketHeader">
+      <div class="row">
+        <img style="margin: 10px; margin-left: 28px;" height="40px" width="40px" src="Logo gris.jpg" alt="Carrito de compras" class="col-3">
+        <p style="margin-top: 20px; font-family: monospace;" class="col-6">MINIMERCADO BORO</p>
+        <div style="height: 1px; background-color: black; width: 335px; margin-left: 12px;" ></div>
+      </div>
+
+      <p style="font-family: monospace; font-size: 15px;">
+        LUCIO V. LÓPEZ, AMADEO CARLETTI 404
+      <br>
+        TEL: 3476551509
+      <br>
+        LUN A LUN, 08:00-13:00/16:30-21:00</p>
+
+      <div style="height: 2px; background-color: black; width: 335px; "></div>
+
+      <div class="ticketTabla">
+        <table id="tablaTicket" style="width: 300px;font-family: monospace; ">
+          <th>Descripcion</th>
+          <th>Cantidad</th>
+          <th>Precio</th>
+        </table>
+
+        <div style="height: 2px; width: 335px; ">----------------------------------------------------</div>
+        <br>
+        <div class="row" style="font-family: monospace;">
+          <div id="cantidadProductos" class="col-6"></div> <div id="totalDiv" class= "col-6"></div>
+        </div>
+        <div style="height: 2px; width: 335px; ">----------------------------------------------------</div>
+        <br>
+        <div style="font-family: monospace; font-size: 10px;" id="fechaHoraEmision" class="font-weight-bold">Fecha y Hora de Emisión: <span id="fechaHoraValor"></span></div>
+        <div style="font-family: monospace; padding-bottom: 15px;">¡Que tenga un buen dia!</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+<style>
+.button {
+  border-radius: 5px;
+  background-color: #ea1111;
+  border: none; 
+  font-size: 15px;
+  color: #ffffff;
+  margin: 5px;
+  margin-left: 45px;
+  width: 30px;
+  height: 30px;
+  text-align: center; 
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+}  
+ .hidden{
+  display: none;
+}
+ .celdaHeader{
+  padding: 10px;
+  margin: 10px;
+  width: 150px;
+  justify-content: center;
+  text-align: center;
+  }
+ .nueva-fila{
+  font-weight: bold;
+  padding: 5px;
+  font-size: 15px;
+  text-align: center;
+    }
+ 
+ .inputPeso{ 
+  width: 80px;
+  height: 30px;
+  margin-left: 25px;
+  font-size: 13px;
+  text-align: center;
+  font-weight: bold;
+  display: flex;
+      } 
+ .mensaje-no-encontrado{
+  color: #ffffff;
+  background-color: #ea1111;
+  text-align: center;
+  border-radius: 5px;
+  font-weight: bold;
+  margin-bottom: 5px;
+    } 
+ #contenedorTablaTicket{
+  margin-left: 400px;
+}
+
+.ticket{
+  background-color: #ffffff;
+  text-align: center;
+  margin-left: 600px;
+  margin-right: 600px;
+}
+ </style>
+
+ <script src="stock.js"></script>
+
